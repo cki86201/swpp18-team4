@@ -2,12 +2,12 @@ language: python
 python: 3.6
 cache:
     pip: true
-    install:
-        - cd TaDa/backend
-        - pip install django
-        - pip install coverage
-    script:
-        - coverage run --source='./user' manage.py test
-    after_success:
-        - coveralls
+install:
+    - cd TaDa/backend
+    - pip install django
+    - pip install coverage
+script:
+    - coverage run --source='./user' manage.py test
+after_success:
+    - coveralls
 
