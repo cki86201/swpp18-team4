@@ -1,4 +1,7 @@
 sudo: required
+notifications:
+  webhooks: https://coveralls.io/webhook
+
 matrix:
   include:
   - language: python
