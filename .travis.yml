@@ -1,4 +1,4 @@
-language: python
+sudo: required
 matrix:
   include:
   - language: python
