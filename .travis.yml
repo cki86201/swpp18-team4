@@ -1,22 +1,52 @@
 language: python
-python: 3.6
-cache:
-    pip: true
-services:
-    - mysql
-before_install:
-    - mysql -e "CREATE USER 'TaDa'@'localhost' identified by '1234';"
-    - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'TaDa'@'localhost';"
-    - mysql -e 'CREATE DATABASE TaDa_DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
-    - cd TaDa/backend
-install:
-    - pip install django
-    - pip install coverage
-    - pip install python-coveralls
-    - pip install mysqlclient
-    - pip install django-mysql
-script:
-    - coverage run --source='./' --omit='*wsgi*,manage.py' manage.py test
-after_success:
-    - coveralls
+matrix:
+  include:
+  - language: python
+    cache:
+      pip: true
+      services:
+        - mysql
+      before_install:
+        - mysql -e "CREATE USER 'TaDa'@'localhost' identified by '1234';"
+        - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'TaDa'@'localhost';"
+        - mysql -e 'CREATE DATABASE TaDa_DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
+        - cd TaDa/backend
+      install:
+        - pip install django
+        - pip install coverage
+        - pip install python-coveralls
+        - pip install mysqlclient
+        - pip install django-mysql
+      script:
+        - coverage run --source='./' --omit='*wsgi*,manage.py' manage.py test
+      after_success:
+        - coveralls
+  - language: node_js
+    node_js: 11.0
+    addons:
+      apt:
+        sources:
+          - google-chrome
+        packages:
+          - google-chrome-stable
+        cache:
+          npm: true
+        directories:
+          - frontend/node_modules
+        before_install:
+          - export CHROME_BIN=/usr/bin/google-chrome
+          - export DISPLAY=:99.0
+          - sh -e /etc/init.d/xvfb start
+          - cd TaDa/frontend
+        install:
+          - npm install
+          - npm install coveralls
+          - npm install -g @angular/cli
+        script:
+          - ng test --code-coverage --watch false
+          - ng e2e
+        after_success:
+          - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+        after_script:
+          - cd ..
 
