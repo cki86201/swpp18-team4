@@ -4,8 +4,8 @@ cache:
     pip: true
 services:
     - mysql
-before-install:
-    - mysql -e 'CREATE DATABASE TaDa_DB'
+before_install:
+    - mysql -e 'CREATE DATABASE TaDa_DB;'
     - cd TaDa/backend
 install:
     - pip install django
