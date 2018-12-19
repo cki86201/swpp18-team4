@@ -11,6 +11,7 @@ install:
     - pip install django
     - pip install coverage
     - pip install python-coveralls
+    - pip install django-mysql
 script:
     - coverage run --source='./user' manage.py test
 after_success:
