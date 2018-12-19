@@ -7,11 +7,9 @@ install:
     - pip install django
     - pip install coverage
     - pip install python-coveralls
-    - sudo apt-get install mysql-community-server
-    - sudo apt-get install python-dev python3-dev
-    - sudo apt-get install libmysqlclient-dev
     - pip install mysqlclient
     - pip install mysql-python
+    - pip install django-mysql
 script:
     - coverage run --source='./user' manage.py test
 after_success:
