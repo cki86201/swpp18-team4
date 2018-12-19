@@ -6,6 +6,7 @@ install:
     - cd TaDa/backend
     - pip install django
     - pip install coverage
+    - pip install python-coveralls
 script:
     - coverage run --source='./user' manage.py test
 after_success:
